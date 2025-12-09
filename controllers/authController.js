@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { sendVerificationEmail } from "../utils/sendMail.js";
+
 // step # 1
 export const registerUser = async (req, res) => {
   try {
@@ -21,8 +22,10 @@ export const registerUser = async (req, res) => {
     res.json({ message: "Registration Successfull" });
   } catch (err) {
     console.log(err);
+    res.status(500).json({ message: "Server error" });
   }
 };
+
 // step # 3
 export const verifyEmail = async (req, res) => {
   try {
@@ -36,6 +39,7 @@ export const verifyEmail = async (req, res) => {
     res.json({ message: "Email Verified Successfull" });
   } catch (err) {
     console.log(err);
+    res.status(500).json({ message: "Verification failed" });
   }
 };
 
@@ -64,33 +68,33 @@ export const login = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,      
-      sameSite: "lax",    
+      secure: true,      
+      sameSite: "none",    
       path: "/",
     });
 
-    return res.status(200).json({ name: user.name });
+    return res.status(200).json({ 
+      message: "Login successful",
+      name: user.name 
+    });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Server error" });
   }
 };
 
-
 //logout
 export const logout = (req, res) => {
   res.cookie("token", "", {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: true,
+    sameSite: "none",
     expires: new Date(0),
     path: "/",
   });
 
   return res.json({ message: "Logged out" });
 };
-
-
 
 export const isAuth = async (req, res) => {
   try {
