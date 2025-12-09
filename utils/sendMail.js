@@ -10,8 +10,8 @@ export const sendVerificationEmail = (to, token) => {
       pass: process.env.SMTP_PASS,
     },
   });
-
-  const verifyUrl = `${process.env.FRONTEND_URL}/verify?token=${token}`;
+    const FRONTEND_URL ="http://localhost:5173"
+  const verifyUrl = `${FRONTEND_URL}/verify?token=${token}`;
   const message = {
   from: process.env.SMTP_USER,
   to,
