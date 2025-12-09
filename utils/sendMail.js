@@ -10,7 +10,7 @@ export const sendVerificationEmail = (to, token) => {
       pass: process.env.SMTP_PASS,
     },
   });
-    const FRONTEND_URL ="http://localhost:5173"
+    const FRONTEND_URL ="https://node-mailer-test-project-frontend.vercel.app"
   const verifyUrl = `${FRONTEND_URL}/verify?token=${token}`;
   const message = {
   from: process.env.SMTP_USER,
